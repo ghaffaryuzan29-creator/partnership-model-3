@@ -1,0 +1,1132 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GROWBIZ — Growth Partnership Calculator</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════
+   DARK  : Warm off-black
+   LIGHT : Warm cream/ivory — selaras dark mode
+═══════════════════════════════════════════════ */
+:root {
+  --bg:      #1c1916;
+  --sf:      #242018;
+  --sf2:     #2e2a22;
+  --sf3:     #38332a;
+  --bd:      #423d34;
+  --bd2:     #524d42;
+  --ac:      #c6d96e;
+  --ac2:     #e8b84a;
+  --ac3:     #de7a52;
+  --ac4:     #88b0d2;
+  --tx:      #ede8de;
+  --tx2:     #c4bfb4;
+  --mu:      #7a7468;
+  --mu2:     #50493e;
+  --pos:     #78d8a2;
+  --neg:     #e87268;
+  --kg-bd:#3c4a1c; --kg-1:#1c2410; --kg-2:#222c12;
+  --ka-bd:#4a3c14; --ka-1:#221a08; --ka-2:#2a200e;
+  --kb-bd:#1e3242; --kb-1:#101820; --kb-2:#142232;
+  --roi-1:#1e2610; --roi-2:#242e14; --roi-bd:#3c4a1c;
+  --p-bg:#1c2610; --f-bg:#22190a; --n-bg:#1a2410;
+  --tb-bg:#1e2e12;
+  --vg-bg:#1a2610; --vg-bd:#3c4a1c;
+  --vw-bg:#221a08; --vw-bd:#4c3c12;
+  --vb-bg:#22100e; --vb-bd:#5c2c28;
+  --cb-1:#1c2610; --cb-2:#222e14; --cb-bd:#3c4a1c;
+  --fh-1:#1c2610; --fh-2:#222e14;
+  --cell:#a8a294; --barn:#887e72; --ckey:#b8b2a6; --vtx:#b0a89c;
+  --shdg:#2e2a22; --tgbd:#3c4a1c; --togon:#2e4016;
+  --ch-shopee:#c6d96e; --ch-cpas:#e8b84a; --ch-boost:#de7a52;
+}
+/* ── LIGHT: Warm Cream/Ivory ── */
+:root.light {
+  --bg:      #f5f0e8;
+  --sf:      #fdfaf4;
+  --sf2:     #ede8dc;
+  --sf3:     #e4ddd0;
+  --bd:      #cfc8b8;
+  --bd2:     #b8b0a0;
+  --ac:      #5a7a1a;
+  --ac2:     #a06c10;
+  --ac3:     #b85a30;
+  --ac4:     #2a6890;
+  --tx:      #1e1c16;
+  --tx2:     #38342a;
+  --mu:      #7a7260;
+  --mu2:     #a09880;
+  --pos:     #2e7a46;
+  --neg:     #b83830;
+  --kg-bd:#a0b84a; --kg-1:#eef4d4; --kg-2:#e4ecc4;
+  --ka-bd:#c8a030; --ka-1:#faf0cc; --ka-2:#f0e4b0;
+  --kb-bd:#6898b8; --kb-1:#e4eef6; --kb-2:#d4e4f0;
+  --roi-1:#eef4d4; --roi-2:#e6ecc8; --roi-bd:#8ab030;
+  --p-bg:#eef4d4; --f-bg:#faf0cc; --n-bg:#e8f0d0;
+  --tb-bg:#deeab8;
+  --vg-bg:#e8f4d4; --vg-bd:#80b840;
+  --vw-bg:#faf0cc; --vw-bd:#c09020;
+  --vb-bg:#fae4dc; --vb-bd:#c86050;
+  --cb-1:#eef4d4; --cb-2:#e6ecc8; --cb-bd:#8ab030;
+  --fh-1:#eef4d4; --fh-2:#e6ecc8;
+  --cell:#3a3428; --barn:#5a5040; --ckey:#2a2418; --vtx:#2a2418;
+  --shdg:#e8e0d0; --tgbd:#8ab030; --togon:#c8dc80;
+  --ch-shopee:#5a7a1a; --ch-cpas:#a06c10; --ch-boost:#b85a30;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--tx);font-family:'DM Sans',sans-serif;font-size:14px;line-height:1.6;min-height:100vh;}
+
+.app{display:flex;min-height:100vh;}
+.sidebar{width:316px;min-width:260px;background:var(--sf);border-right:1px solid var(--bd);padding-bottom:48px;overflow-y:auto;position:sticky;top:0;height:100vh;flex-shrink:0;}
+.sbi{padding:0 15px;}
+.main{flex:1;overflow-y:auto;min-width:0;}
+
+.tnav{display:flex;align-items:stretch;border-bottom:1px solid var(--bd);background:var(--sf);padding:0 20px;}
+.nbrand{display:flex;align-items:center;gap:10px;padding:13px 16px 13px 0;border-right:1px solid var(--bd);margin-right:6px;}
+.nmark{width:26px;height:26px;background:var(--ac);border-radius:5px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.nmark svg{width:13px;height:13px;fill:none;stroke:#1c1916;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;}
+:root.light .nmark svg{stroke:#fdfaf4;}
+.nname{font-family:'Syne',sans-serif;font-size:.86rem;font-weight:800;color:var(--tx);letter-spacing:.04em;line-height:1.1;}
+.ntag{font-size:8.5px;color:var(--mu);letter-spacing:.04em;}
+.tbtn{font-family:'Syne',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--mu);padding:0 13px;border:none;background:none;cursor:pointer;border-bottom:2px solid transparent;transition:color .15s;white-space:nowrap;}
+.tbtn:hover{color:var(--tx);}
+.tbtn.on{color:var(--ac);border-bottom-color:var(--ac);}
+.tpanel{display:none;padding:22px 26px 60px;}
+.tpanel.on{display:block;}
+.thmbtn{margin-left:auto;display:flex;align-items:center;gap:6px;padding:5px 11px;border-radius:20px;border:1px solid var(--bd);background:var(--sf2);color:var(--mu);cursor:pointer;font-family:'Syne',sans-serif;font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;align-self:center;}
+.thmbtn:hover{border-color:var(--ac);color:var(--ac);}
+
+.sh{font-family:'Syne',sans-serif;font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--ac);margin:15px 0 9px;display:flex;align-items:center;gap:7px;}
+.sh::after{content:'';flex:1;height:1px;background:var(--bd);}
+.sh.dim{color:var(--mu);}
+.sdiv{border:none;border-top:1px solid var(--bd);margin:12px 0;}
+
+.ig{margin-bottom:10px;}
+.ig label{display:block;font-size:10px;color:var(--mu);margin-bottom:3px;font-weight:500;}
+.ig .hint{font-size:9px;color:var(--mu2);margin-top:2px;font-style:italic;}
+
+.iw{position:relative;}
+.ip{position:absolute;left:8px;top:50%;transform:translateY(-50%);font-family:'DM Mono',monospace;font-size:10px;color:var(--mu);pointer-events:none;z-index:1;user-select:none;}
+.ii{width:100%;background:var(--sf2);border:1px solid var(--bd);border-radius:5px;padding:6px 8px 6px 25px;color:var(--tx);font-family:'DM Mono',monospace;font-size:11.5px;outline:none;}
+.ii:focus{border-color:var(--ac);}
+
+input[type=number]{width:100%;background:var(--sf2);border:1px solid var(--bd);border-radius:5px;padding:6px 8px;color:var(--tx);font-family:'DM Mono',monospace;font-size:11.5px;outline:none;}
+input[type=number]:focus{border-color:var(--ac);}
+input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;}
+
+.rr{display:flex;align-items:center;gap:7px;}
+input[type=range]{-webkit-appearance:none;flex:1;height:3px;background:var(--bd);border-radius:2px;outline:none;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:13px;height:13px;border-radius:50%;background:var(--ac);cursor:pointer;}
+.rv{font-family:'DM Mono',monospace;font-size:11px;color:var(--ac);min-width:34px;text-align:right;}
+
+.dual{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:5px;}
+.dsep{font-size:9px;color:var(--mu);text-align:center;}
+.pw{position:relative;}
+.pw input{padding-right:17px;}
+.ps{position:absolute;right:7px;top:50%;transform:translateY(-50%);font-size:10px;color:var(--mu);pointer-events:none;}
+
+.tgrow{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;}
+.tglbl{font-size:11px;color:var(--tx);}
+.tg{position:relative;width:30px;height:16px;}
+.tg input{opacity:0;width:0;height:0;}
+.tgsl{position:absolute;inset:0;background:var(--bd);border-radius:20px;cursor:pointer;transition:.2s;}
+.tgsl::before{content:'';position:absolute;width:10px;height:10px;left:3px;top:3px;background:var(--mu);border-radius:50%;transition:.2s;}
+.tg input:checked+.tgsl{background:var(--togon);}
+.tg input:checked+.tgsl::before{transform:translateX(14px);background:var(--ac);}
+
+.tgrid{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:4px;}
+.tglb{font-size:9px;color:var(--mu);padding-bottom:1px;}
+
+/* ── ADS CHANNEL BLOCK ── */
+.ach{border:1px solid var(--bd);border-radius:6px;padding:9px 11px;margin-bottom:7px;background:var(--sf2);}
+.ach-hd{display:flex;align-items:center;gap:6px;margin-bottom:7px;}
+.ach-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.ach-nm{font-family:'Syne',sans-serif;font-size:9.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;}
+.ach-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px;}
+.ach-lbl{font-size:9px;color:var(--mu);margin-bottom:2px;}
+
+/* ── ROAS BREAKDOWN ── */
+.roas-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px;}
+.roas-ch{background:var(--sf2);border:1px solid var(--bd);border-radius:6px;padding:8px 10px;text-align:center;}
+.roas-ch-dot{width:6px;height:6px;border-radius:50%;margin:0 auto 3px;}
+.roas-ch-lbl{font-size:8.5px;color:var(--mu);letter-spacing:.04em;text-transform:uppercase;margin-bottom:2px;}
+.roas-ch-v{font-family:'Syne',sans-serif;font-size:.95rem;font-weight:800;color:var(--ac);}
+.roas-blended{background:linear-gradient(135deg,var(--roi-1),var(--roi-2));border:1px solid var(--roi-bd);border-radius:7px;padding:11px 14px;margin-bottom:14px;display:flex;align-items:center;gap:14px;}
+.roas-blend-big{font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;color:var(--ac);line-height:1;flex-shrink:0;}
+.roas-blend-tx{font-size:10.5px;color:var(--mu);}
+.roas-blend-tx strong{color:var(--tx);display:block;margin-bottom:1px;font-size:11.5px;}
+
+.ptag{font-family:'Syne',sans-serif;font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--ac);border:1px solid var(--tgbd);padding:2px 8px;border-radius:2px;display:inline-block;margin-bottom:7px;}
+.ph h1{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;line-height:1.15;color:var(--tx);margin-bottom:4px;}
+.ph h1 span{color:var(--ac);}
+.ph p{color:var(--mu);font-size:11.5px;margin-bottom:20px;}
+
+.sl{font-family:'Syne',sans-serif;font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--mu);margin:22px 0 10px;display:flex;align-items:center;gap:9px;}
+.sl::after{content:'';flex:1;height:1px;background:var(--bd);}
+
+.sctabs{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap;}
+.sctab{font-family:'Syne',sans-serif;font-size:9.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:5px 12px;border-radius:4px;border:1px solid var(--bd);background:var(--sf2);color:var(--mu);cursor:pointer;transition:all .15s;}
+.sctab:hover{border-color:var(--ac);color:var(--ac);}
+.sctab.on{background:var(--ac);color:#1c1916;border-color:var(--ac);}
+:root.light .sctab.on{color:#fdfaf4;}
+
+.scd{background:var(--sf2);border:1px solid var(--bd);border-radius:7px;padding:12px 14px;margin-bottom:15px;display:grid;grid-template-columns:repeat(3,1fr);gap:9px;}
+.scdl{font-size:9px;color:var(--mu);letter-spacing:.05em;text-transform:uppercase;margin-bottom:1px;}
+.scdv{font-family:'DM Mono',monospace;font-size:12px;color:var(--tx);font-weight:500;}
+.scdv.g{color:var(--pos);}.scdv.go{color:var(--ac2);}.scdv.ac{color:var(--ac);}.scdv.or{color:var(--ac3);}
+
+.kgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px;}
+.kc{background:var(--sf);border:1px solid var(--bd);border-radius:7px;padding:12px 13px;}
+.kc.kg{border-color:var(--kg-bd);background:linear-gradient(135deg,var(--kg-1),var(--kg-2));}
+.kc.ka{border-color:var(--ka-bd);background:linear-gradient(135deg,var(--ka-1),var(--ka-2));}
+.kc.kb{border-color:var(--kb-bd);background:linear-gradient(135deg,var(--kb-1),var(--kb-2));}
+.kl{font-size:9px;color:var(--mu);letter-spacing:.05em;text-transform:uppercase;margin-bottom:3px;}
+.kv{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;line-height:1;}
+.kv.g{color:var(--pos);}.kv.go{color:var(--ac2);}.kv.ac{color:var(--ac);}.kv.bl{color:var(--ac4);}
+.ks{font-size:9px;color:var(--mu);margin-top:2px;}
+
+.roihl{background:linear-gradient(135deg,var(--roi-1),var(--roi-2));border:1px solid var(--roi-bd);border-radius:9px;padding:16px 20px;margin-bottom:20px;display:flex;align-items:center;gap:20px;}
+.roibig{font-family:'Syne',sans-serif;font-size:2.4rem;font-weight:800;color:var(--ac);line-height:1;flex-shrink:0;}
+.roitx h3{font-family:'Syne',sans-serif;font-size:12.5px;font-weight:700;color:var(--tx);margin-bottom:3px;}
+.roitx p{font-size:11px;color:var(--mu);}
+
+.ct{width:100%;border-collapse:collapse;margin-bottom:20px;font-size:11.5px;}
+.ct thead tr{background:var(--sf2);}
+.ct th{font-family:'Syne',sans-serif;font-size:8.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--mu);padding:8px 10px;text-align:left;border-bottom:1px solid var(--bd);}
+.ct th.ca{color:var(--ac);}
+.ct td{padding:7px 10px;border-bottom:1px solid var(--bd);font-family:'DM Mono',monospace;color:var(--cell);}
+.ct td.rl{font-family:'DM Sans',sans-serif;color:var(--tx);font-size:12px;}
+.ct tr:last-child td{border-bottom:none;}
+.ct tr.sub td{background:var(--sf2);font-weight:600;color:var(--tx);}
+.ct tr.shd td{background:var(--shdg);font-family:'Syne',sans-serif;font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--mu);padding:6px 10px;border-top:1px solid var(--bd);}
+.ct tr.pr td{color:var(--pos);font-weight:700;background:linear-gradient(90deg,var(--p-bg),transparent);}
+.ct tr.fr td{color:var(--ac2);font-weight:700;background:linear-gradient(90deg,var(--f-bg),transparent);}
+.ct tr.nr td{color:var(--ac);font-weight:700;font-size:12px;background:linear-gradient(90deg,var(--n-bg),transparent);border-top:1px solid var(--bd);}
+.vp{color:var(--pos)!important;}.vn{color:var(--neg)!important;}
+
+.tt{width:100%;border-collapse:collapse;margin-bottom:20px;font-size:11.5px;}
+.tt th{font-family:'Syne',sans-serif;font-size:8.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--mu);padding:7px 10px;text-align:left;border-bottom:1px solid var(--bd);background:var(--sf2);}
+.tt td{padding:7px 10px;border-bottom:1px solid var(--bd);font-family:'DM Mono',monospace;font-size:11px;color:var(--cell);}
+.tt tr.at td{background:linear-gradient(90deg,var(--tb-bg),transparent);color:var(--ac);font-weight:700;}
+.tt tr.at td:first-child::before{content:'▶ ';color:var(--ac);}
+
+.bi{margin-bottom:8px;}
+.bh{display:flex;justify-content:space-between;margin-bottom:3px;}
+.bn{font-size:11px;color:var(--barn);}
+.ba{font-family:'DM Mono',monospace;font-size:11px;color:var(--tx);}
+.bt{height:5px;background:var(--sf2);border-radius:3px;overflow:hidden;}
+.bf{height:100%;border-radius:3px;transition:width .4s cubic-bezier(.4,0,.2,1);}
+
+.vrd{padding:14px 16px;border-radius:7px;margin-bottom:9px;border:1px solid var(--bd);}
+.vrd.good{border-color:var(--vg-bd);background:var(--vg-bg);}
+.vrd.warn{border-color:var(--vw-bd);background:var(--vw-bg);}
+.vrd.bad {border-color:var(--vb-bd);background:var(--vb-bg);}
+.vti{font-family:'Syne',sans-serif;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:5px;}
+.vrd.good .vti{color:var(--pos);}.vrd.warn .vti{color:var(--ac2);}.vrd.bad .vti{color:var(--neg);}
+.vbo{font-size:12px;color:var(--vtx);line-height:1.65;}
+.vbo strong{color:var(--tx);}
+.vmx{display:flex;gap:18px;margin-top:9px;flex-wrap:wrap;}
+.vml{font-size:9px;color:var(--mu);text-transform:uppercase;letter-spacing:.06em;margin-bottom:1px;}
+.vmv{font-family:'DM Mono',monospace;font-size:12.5px;font-weight:700;}
+
+.mpin{display:grid;grid-template-columns:repeat(3,1fr);gap:11px;margin-bottom:20px;background:var(--sf);border:1px solid var(--bd);border-radius:7px;padding:16px;}
+.mpg{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;}
+.mpc{background:var(--sf);border:1px solid var(--bd);border-radius:7px;padding:16px;}
+.mpc h3{font-family:'Syne',sans-serif;font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--mu);margin-bottom:11px;}
+.mpb{font-family:'Syne',sans-serif;font-size:1.35rem;font-weight:800;color:var(--ac);margin-bottom:3px;}
+.mpb.go{color:var(--ac2);}.mpb.g{color:var(--pos);}
+
+.flgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px;}
+.flhead{font-family:'Syne',sans-serif;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--mu);margin-bottom:8px;}
+.flr{display:flex;align-items:center;gap:7px;flex-wrap:wrap;}
+.flb{background:var(--sf2);border:1px solid var(--bd);border-radius:5px;padding:9px 12px;text-align:center;flex:1;min-width:80px;}
+.fll{font-size:9px;color:var(--mu);letter-spacing:.06em;text-transform:uppercase;margin-bottom:2px;}
+.flv{font-family:'Syne',sans-serif;font-size:.9rem;font-weight:800;color:var(--tx);}
+.flb.hl{border-color:var(--ac);background:linear-gradient(135deg,var(--fh-1),var(--fh-2));}
+.flb.hl .flv{color:var(--ac);}
+.flb.hla{border-color:var(--ac2);background:linear-gradient(135deg,var(--ka-1),var(--ka-2));}
+.flb.hla .flv{color:var(--ac2);}
+.fla{color:var(--mu);font-size:14px;flex-shrink:0;}
+.fldesc{font-size:10px;color:var(--mu);margin-top:6px;line-height:1.5;}
+
+.at2{width:100%;border-collapse:collapse;font-size:11.5px;}
+.at2 th{font-family:'Syne',sans-serif;font-size:8.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--mu);padding:7px 10px;border-bottom:1px solid var(--bd);background:var(--sf2);text-align:left;}
+.at2 td{padding:7px 10px;border-bottom:1px solid var(--bd);font-family:'DM Mono',monospace;font-size:11px;color:var(--cell);}
+.at2 tr:last-child td{border-bottom:none;}
+.at2 tr.tr2 td{background:var(--sf2);color:var(--tx);font-weight:700;border-top:1px solid var(--bd);}
+
+.cb{background:linear-gradient(135deg,var(--cb-1),var(--cb-2));border:1px solid var(--cb-bd);border-radius:9px;padding:18px 22px;margin-top:20px;}
+.cb h3{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--ac);margin-bottom:11px;}
+.crw{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--bd);}
+.crw:last-child{border-bottom:none;}
+.crk{font-size:12px;color:var(--ckey);}
+.crv{font-family:'DM Mono',monospace;font-size:12px;font-weight:700;color:var(--tx);}
+.crv.g{color:var(--pos);}.crv.go{color:var(--ac2);}.crv.ac{color:var(--ac);}
+
+@media(max-width:900px){
+  .app{flex-direction:column;}
+  .sidebar{width:100%;height:auto;position:static;}
+  .kgrid{grid-template-columns:repeat(2,1fr);}
+  .mpg,.flgrid{grid-template-columns:1fr;}
+  .scd,.mpin{grid-template-columns:1fr 1fr;}
+  .roas-grid{grid-template-columns:1fr 1fr;}
+  .ach-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- ════════════ SIDEBAR ════════════ -->
+<div class="sidebar">
+<div class="sbi">
+  <div class="sh" style="margin-top:18px;">Business Baseline</div>
+
+  <div class="ig"><label>Current GMV</label>
+    <div class="iw"><span class="ip">Rp</span>
+      <input class="ii" id="gmv_before" value="500.000.000" data-raw="500000000" oninput="liveN(this)">
+    </div></div>
+
+  <div class="ig"><label>Gross Margin (%)</label>
+    <div class="rr">
+      <input type="range" id="margin_r" min="1" max="100" value="30" oninput="syncR('margin_r','margin_i','margin_v','%')">
+      <span class="rv" id="margin_v">30%</span>
+    </div>
+    <input type="number" id="margin_i" value="30" min="1" max="100" style="margin-top:5px;" oninput="syncI('margin_i','margin_r','margin_v','%')">
+    <div class="hint">After COGS, before marketing costs</div>
+  </div>
+
+  <div class="sdiv"></div>
+  <div class="sh dim">Ads Budget — Sebelum GROWBIZ</div>
+  <div class="hint" style="margin-bottom:8px;margin-top:-6px;">Budget per channel baseline (tanpa partnership)</div>
+
+  <!-- SHOPEE ADS BEFORE -->
+  <div class="ach" style="border-color:rgba(198,217,110,.3);">
+    <div class="ach-hd">
+      <div class="ach-dot" style="background:#c6d96e;"></div>
+      <span class="ach-nm" style="color:var(--ac);">Shopee Ads</span>
+    </div>
+    <div class="ach-grid">
+      <div>
+        <div class="ach-lbl">Budget</div>
+        <div class="iw"><span class="ip">Rp</span><input class="ii" id="shopee_b" value="60.000.000" data-raw="60000000" oninput="liveN(this)"></div>
+      </div>
+      <div>
+        <div class="ach-lbl">ROAS baseline</div>
+        <input type="number" id="shopee_rb" value="5" min="0.1" step="0.5" oninput="go()">
+      </div>
+    </div>
+  </div>
+
+  <!-- FB CPAS BEFORE -->
+  <div class="ach" style="border-color:rgba(232,184,74,.3);">
+    <div class="ach-hd">
+      <div class="ach-dot" style="background:#e8b84a;"></div>
+      <span class="ach-nm" style="color:var(--ac2);">FB Ads CPAS</span>
+    </div>
+    <div class="ach-grid">
+      <div>
+        <div class="ach-lbl">Budget</div>
+        <div class="iw"><span class="ip">Rp</span><input class="ii" id="cpas_b" value="30.000.000" data-raw="30000000" oninput="liveN(this)"></div>
+      </div>
+      <div>
+        <div class="ach-lbl">ROAS baseline</div>
+        <input type="number" id="cpas_rb" value="4" min="0.1" step="0.5" oninput="go()">
+      </div>
+    </div>
+  </div>
+
+  <!-- BOOSTPOST BEFORE -->
+  <div class="ach" style="border-color:rgba(222,122,82,.3);">
+    <div class="ach-hd">
+      <div class="ach-dot" style="background:#de7a52;"></div>
+      <span class="ach-nm" style="color:var(--ac3);">Boostpost</span>
+    </div>
+    <div class="ach-grid">
+      <div>
+        <div class="ach-lbl">Budget</div>
+        <div class="iw"><span class="ip">Rp</span><input class="ii" id="boost_b" value="10.000.000" data-raw="10000000" oninput="liveN(this)"></div>
+      </div>
+      <div>
+        <div class="ach-lbl">ROAS baseline</div>
+        <input type="number" id="boost_rb" value="2" min="0.1" step="0.5" oninput="go()">
+      </div>
+    </div>
+  </div>
+
+  <div class="sdiv"></div>
+  <div class="sh dim">Ads Budget — Target GROWBIZ</div>
+  <div class="hint" style="margin-bottom:8px;margin-top:-6px;">Budget & ROAS target setelah partnership</div>
+
+  <!-- SHOPEE ADS AFTER -->
+  <div class="ach" style="border-color:rgba(198,217,110,.3);">
+    <div class="ach-hd">
+      <div class="ach-dot" style="background:#c6d96e;"></div>
+      <span class="ach-nm" style="color:var(--ac);">Shopee Ads</span>
+    </div>
+    <div class="ach-grid">
+      <div>
+        <div class="ach-lbl">Budget target</div>
+        <div class="iw"><span class="ip">Rp</span><input class="ii" id="shopee_a" value="120.000.000" data-raw="120000000" oninput="liveN(this)"></div>
+      </div>
+      <div>
+        <div class="ach-lbl">ROAS target</div>
+        <input type="number" id="shopee_ra" value="10" min="0.1" step="0.5" oninput="go()">
+      </div>
+    </div>
+  </div>
+
+  <!-- FB CPAS AFTER -->
+  <div class="ach" style="border-color:rgba(232,184,74,.3);">
+    <div class="ach-hd">
+      <div class="ach-dot" style="background:#e8b84a;"></div>
+      <span class="ach-nm" style="color:var(--ac2);">FB Ads CPAS</span>
+    </div>
+    <div class="ach-grid">
+      <div>
+        <div class="ach-lbl">Budget target</div>
+        <div class="iw"><span class="ip">Rp</span><input class="ii" id="cpas_a" value="60.000.000" data-raw="60000000" oninput="liveN(this)"></div>
+      </div>
+      <div>
+        <div class="ach-lbl">ROAS target</div>
+        <input type="number" id="cpas_ra" value="7" min="0.1" step="0.5" oninput="go()">
+      </div>
+    </div>
+  </div>
+
+  <!-- BOOSTPOST AFTER -->
+  <div class="ach" style="border-color:rgba(222,122,82,.3);">
+    <div class="ach-hd">
+      <div class="ach-dot" style="background:#de7a52;"></div>
+      <span class="ach-nm" style="color:var(--ac3);">Boostpost</span>
+    </div>
+    <div class="ach-grid">
+      <div>
+        <div class="ach-lbl">Budget target</div>
+        <div class="iw"><span class="ip">Rp</span><input class="ii" id="boost_a" value="20.000.000" data-raw="20000000" oninput="liveN(this)"></div>
+      </div>
+      <div>
+        <div class="ach-lbl">ROAS target</div>
+        <input type="number" id="boost_ra" value="3.5" min="0.1" step="0.5" oninput="go()">
+      </div>
+    </div>
+  </div>
+
+  <div class="sdiv"></div>
+  <div class="sh dim">Other Marketing Costs</div>
+
+  <div class="tgrow">
+    <span class="tglbl">Affiliate / Commission</span>
+    <label class="tg"><input type="checkbox" id="tog_aff" checked onchange="go()"><span class="tgsl"></span></label>
+  </div>
+  <div class="ig">
+    <div class="dual">
+      <div class="iw"><span class="ip">Rp</span><input class="ii" id="val_aff" value="0" data-raw="0" oninput="liveN(this)" placeholder="fixed"></div>
+      <span class="dsep">or</span>
+      <div class="pw"><input type="number" id="pct_aff" value="1" min="0" max="100" step="0.1" placeholder="%"><span class="ps">%</span></div>
+    </div>
+  </div>
+
+  <div class="tgrow" style="margin-top:2px;">
+    <span class="tglbl">KOL / Influencer</span>
+    <label class="tg"><input type="checkbox" id="tog_kol" checked onchange="go()"><span class="tgsl"></span></label>
+  </div>
+  <div class="ig">
+    <div class="dual">
+      <div class="iw"><span class="ip">Rp</span><input class="ii" id="val_kol" value="15.000.000" data-raw="15000000" oninput="liveN(this)" placeholder="fixed"></div>
+      <span class="dsep">or</span>
+      <div class="pw"><input type="number" id="pct_kol" value="0" min="0" max="100" step="0.1" placeholder="%"><span class="ps">%</span></div>
+    </div>
+  </div>
+
+  <div class="tgrow" style="margin-top:2px;">
+    <span class="tglbl">Product Barter</span>
+    <label class="tg"><input type="checkbox" id="tog_barter" checked onchange="go()"><span class="tgsl"></span></label>
+  </div>
+  <div class="ig">
+    <div class="dual">
+      <div class="iw"><span class="ip">Rp</span><input class="ii" id="val_barter" value="5.000.000" data-raw="5000000" oninput="liveN(this)" placeholder="fixed"></div>
+      <span class="dsep">or</span>
+      <div class="pw"><input type="number" id="pct_barter" value="0" min="0" max="100" step="0.1" placeholder="%"><span class="ps">%</span></div>
+    </div>
+  </div>
+
+  <div class="tgrow" style="margin-top:2px;">
+    <span class="tglbl">Voucher / Platform Discount</span>
+    <label class="tg"><input type="checkbox" id="tog_voucher" checked onchange="go()"><span class="tgsl"></span></label>
+  </div>
+  <div class="ig">
+    <div class="dual">
+      <div class="iw"><span class="ip">Rp</span><input class="ii" id="val_voucher" value="0" data-raw="0" oninput="liveN(this)" placeholder="fixed"></div>
+      <span class="dsep">or</span>
+      <div class="pw"><input type="number" id="pct_voucher" value="1" min="0" max="100" step="0.1" placeholder="%"><span class="ps">%</span></div>
+    </div>
+  </div>
+
+  <div class="sdiv"></div>
+  <div class="sh dim">GROWBIZ Fee Structure</div>
+
+  <div class="ig"><label>Base Retainer</label>
+    <div class="iw"><span class="ip">Rp</span>
+      <input class="ii" id="fee_base" value="15.000.000" data-raw="15000000" oninput="liveN(this)">
+    </div></div>
+
+  <div class="ig"><label>% of Total Ads Budget</label>
+    <div class="rr">
+      <input type="range" id="fee_pct_r" min="0" max="20" value="8" step="0.5" oninput="syncR('fee_pct_r','fee_pct_i','fee_pct_v','%')">
+      <span class="rv" id="fee_pct_v">8%</span>
+    </div>
+    <input type="number" id="fee_pct_i" value="8" min="0" max="30" step="0.5" style="margin-top:5px;" oninput="syncI('fee_pct_i','fee_pct_r','fee_pct_v','%')">
+  </div>
+
+  <div class="ig" style="margin-top:3px;">
+    <label style="color:var(--ac2);">Performance Bonus Tiers</label>
+    <div class="hint" style="margin-bottom:4px;">Berdasarkan Blended ROAS — tier tertinggi yang tercapai</div>
+    <div class="tgrid">
+      <div class="tglb">Blended ROAS ≥</div><div class="tglb">Bonus (Rp)</div>
+      <input type="number" id="tier1_roas" value="5" step="0.5">
+      <div class="iw"><span class="ip" style="font-size:9px;">Rp</span><input class="ii" id="tier1_bonus" value="3.000.000" data-raw="3000000" oninput="liveN(this)" style="padding-left:22px;font-size:11px;padding-top:5px;padding-bottom:5px;"></div>
+      <input type="number" id="tier2_roas" value="7" step="0.5">
+      <div class="iw"><span class="ip" style="font-size:9px;">Rp</span><input class="ii" id="tier2_bonus" value="6.000.000" data-raw="6000000" oninput="liveN(this)" style="padding-left:22px;font-size:11px;padding-top:5px;padding-bottom:5px;"></div>
+      <input type="number" id="tier3_roas" value="9" step="0.5">
+      <div class="iw"><span class="ip" style="font-size:9px;">Rp</span><input class="ii" id="tier3_bonus" value="10.000.000" data-raw="10000000" oninput="liveN(this)" style="padding-left:22px;font-size:11px;padding-top:5px;padding-bottom:5px;"></div>
+      <input type="number" id="tier4_roas" value="11" step="0.5">
+      <div class="iw"><span class="ip" style="font-size:9px;">Rp</span><input class="ii" id="tier4_bonus" value="15.000.000" data-raw="15000000" oninput="liveN(this)" style="padding-left:22px;font-size:11px;padding-top:5px;padding-bottom:5px;"></div>
+    </div>
+  </div>
+</div>
+</div><!-- /sidebar -->
+
+<!-- ════════════ MAIN ════════════ -->
+<div class="main">
+  <div class="tnav">
+    <div class="nbrand">
+      <div class="nmark">
+        <svg viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+      </div>
+      <div>
+        <div class="nname">GROWBIZ</div>
+        <div class="ntag">Growth Partnership Calculator</div>
+      </div>
+    </div>
+    <button class="tbtn on" onclick="switchTab('tab-roi',this)">Partnership Analysis</button>
+    <button class="tbtn" onclick="switchTab('tab-mp',this)">Media Planning</button>
+    <button class="thmbtn" onclick="toggleTheme()">
+      <span id="ti">🌙</span><span id="tl">Light</span>
+    </button>
+  </div>
+
+  <!-- ══ TAB 1: PARTNERSHIP ANALYSIS ══ -->
+  <div id="tab-roi" class="tpanel on">
+    <div class="ph">
+      <div class="ptag">ROI Analysis</div>
+      <h1>Net Profit & <span>Partnership ROI</span></h1>
+      <p>Perbandingan lengkap sebelum dan sesudah GROWBIZ — breakdown per channel ads, blended ROAS, dan semua komponen biaya marketing.</p>
+    </div>
+
+    <!-- ROAS BREAKDOWN -->
+    <div class="sl">ROAS Breakdown Per Channel</div>
+    <div class="roas-grid">
+      <div class="roas-ch">
+        <div class="roas-ch-dot" style="background:#c6d96e;"></div>
+        <div class="roas-ch-lbl">Shopee Ads</div>
+        <div style="display:flex;gap:6px;justify-content:center;align-items:baseline;margin-top:2px;">
+          <div style="text-align:center;">
+            <div style="font-size:8px;color:var(--mu);margin-bottom:1px;">Baseline</div>
+            <div class="roas-ch-v" style="color:var(--mu);font-size:.8rem;" id="rd_shopee_b">—</div>
+          </div>
+          <div style="color:var(--mu);font-size:10px;">→</div>
+          <div style="text-align:center;">
+            <div style="font-size:8px;color:var(--ac);margin-bottom:1px;">Target</div>
+            <div class="roas-ch-v" id="rd_shopee_a">—</div>
+          </div>
+        </div>
+      </div>
+      <div class="roas-ch">
+        <div class="roas-ch-dot" style="background:#e8b84a;"></div>
+        <div class="roas-ch-lbl">FB Ads CPAS</div>
+        <div style="display:flex;gap:6px;justify-content:center;align-items:baseline;margin-top:2px;">
+          <div style="text-align:center;">
+            <div style="font-size:8px;color:var(--mu);margin-bottom:1px;">Baseline</div>
+            <div class="roas-ch-v" style="color:var(--mu);font-size:.8rem;" id="rd_cpas_b">—</div>
+          </div>
+          <div style="color:var(--mu);font-size:10px;">→</div>
+          <div style="text-align:center;">
+            <div style="font-size:8px;color:var(--ac2);margin-bottom:1px;">Target</div>
+            <div class="roas-ch-v" style="color:var(--ac2);" id="rd_cpas_a">—</div>
+          </div>
+        </div>
+      </div>
+      <div class="roas-ch">
+        <div class="roas-ch-dot" style="background:#de7a52;"></div>
+        <div class="roas-ch-lbl">Boostpost</div>
+        <div style="display:flex;gap:6px;justify-content:center;align-items:baseline;margin-top:2px;">
+          <div style="text-align:center;">
+            <div style="font-size:8px;color:var(--mu);margin-bottom:1px;">Baseline</div>
+            <div class="roas-ch-v" style="color:var(--mu);font-size:.8rem;" id="rd_boost_b">—</div>
+          </div>
+          <div style="color:var(--mu);font-size:10px;">→</div>
+          <div style="text-align:center;">
+            <div style="font-size:8px;color:var(--ac3);margin-bottom:1px;">Target</div>
+            <div class="roas-ch-v" style="color:var(--ac3);" id="rd_boost_a">—</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BLENDED ROAS -->
+    <div class="roas-blended">
+      <div>
+        <div style="font-size:8.5px;color:var(--mu);letter-spacing:.08em;text-transform:uppercase;margin-bottom:2px;">Blended ROAS — Baseline</div>
+        <div style="font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;color:var(--mu);line-height:1;" id="blend_b">—</div>
+      </div>
+      <div style="color:var(--mu);font-size:22px;padding:0 4px;">→</div>
+      <div>
+        <div style="font-size:8.5px;color:var(--ac);letter-spacing:.08em;text-transform:uppercase;margin-bottom:2px;">Blended ROAS — Target</div>
+        <div class="roas-blend-big" id="blend_a">—</div>
+      </div>
+      <div style="flex:1;padding-left:10px;border-left:1px solid var(--bd);">
+        <div class="roas-blend-tx"><strong id="blend_desc">—</strong><span id="blend_sub">—</span></div>
+      </div>
+    </div>
+
+    <div class="sl">Quick Scenarios</div>
+    <div class="sctabs">
+      <button class="sctab on" onclick="loadSC('base',this)">Baseline</button>
+      <button class="sctab" onclick="loadSC('target',this)">On Target</button>
+      <button class="sctab" onclick="loadSC('best',this)">Best Case</button>
+      <button class="sctab" onclick="loadSC('under',this)">Underperform</button>
+    </div>
+
+    <div class="scd">
+      <div><div class="scdl">Scenario</div><div class="scdv ac" id="sc_name">—</div></div>
+      <div><div class="scdl">Blended ROAS Baseline</div><div class="scdv" id="sc_rb">—</div></div>
+      <div><div class="scdl">Blended ROAS Target</div><div class="scdv g" id="sc_ra">—</div></div>
+      <div><div class="scdl">Total Ads Budget</div><div class="scdv" id="sc_ads">—</div></div>
+      <div><div class="scdl">Base Retainer</div><div class="scdv go" id="sc_fb">—</div></div>
+      <div><div class="scdl">Ads % Fee</div><div class="scdv go" id="sc_fp">—</div></div>
+      <div><div class="scdl">Active Bonus Tier</div><div class="scdv or" id="sc_bt">—</div></div>
+      <div><div class="scdl">Total GROWBIZ Fee</div><div class="scdv go" id="sc_ft">—</div></div>
+      <div><div class="scdl">Client ROI on Fee</div><div class="scdv g" id="sc_roi">—</div></div>
+    </div>
+
+    <div class="kgrid">
+      <div class="kc"><div class="kl">Current GMV</div><div class="kv ac" id="k_gb">—</div><div class="ks">without partnership</div></div>
+      <div class="kc kg"><div class="kl">GMV with GROWBIZ</div><div class="kv g" id="k_ga">—</div><div class="ks" id="k_gd">—</div></div>
+      <div class="kc ka"><div class="kl">Total GROWBIZ Fee</div><div class="kv go" id="k_fee">—</div><div class="ks">retainer + % ads + bonus</div></div>
+      <div class="kc kb"><div class="kl">Client ROI on Fee</div><div class="kv bl" id="k_roi">—</div><div class="ks">return per Rp ke GROWBIZ</div></div>
+    </div>
+
+    <div class="roihl">
+      <div class="roibig" id="roi_big">—</div>
+      <div class="roitx">
+        <h3 id="roi_title">—</h3>
+        <p id="roi_sub">—</p>
+      </div>
+    </div>
+
+    <div class="sl">Performance Bonus Tiers — Status Saat Ini</div>
+    <table class="tt">
+      <thead><tr><th>Tier</th><th>Blended ROAS ≥</th><th>Bonus</th><th>Status</th></tr></thead>
+      <tbody id="tier_tbody"></tbody>
+    </table>
+
+    <div class="sl">Full Comparison — Before vs. After Partnership</div>
+    <table class="ct">
+      <thead>
+        <tr>
+          <th style="width:34%">Component</th>
+          <th>Without GROWBIZ<br><span style="font-size:8px;opacity:.55">(baseline)</span></th>
+          <th class="ca">With GROWBIZ<br><span style="font-size:8px;opacity:.75">(target)</span></th>
+          <th>Delta</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="rl">GMV</td><td id="t_gb">—</td><td id="t_ga">—</td><td id="t_gd">—</td></tr>
+        <tr><td class="rl">Gross Profit (after COGS)</td><td id="t_gpb">—</td><td id="t_gpa">—</td><td id="t_gpd">—</td></tr>
+        <tr class="shd"><td colspan="4">Ads Budget per Channel</td></tr>
+        <tr><td class="rl" style="padding-left:18px;"><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#c6d96e;margin-right:5px;vertical-align:middle;"></span>Shopee Ads</td><td id="t_shopee_b">—</td><td id="t_shopee_a">—</td><td id="t_shopee_d">—</td></tr>
+        <tr><td class="rl" style="padding-left:18px;"><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#e8b84a;margin-right:5px;vertical-align:middle;"></span>FB Ads CPAS</td><td id="t_cpas_b">—</td><td id="t_cpas_a">—</td><td id="t_cpas_d">—</td></tr>
+        <tr><td class="rl" style="padding-left:18px;"><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#de7a52;margin-right:5px;vertical-align:middle;"></span>Boostpost</td><td id="t_boost_b">—</td><td id="t_boost_a">—</td><td id="t_boost_d">—</td></tr>
+        <tr class="sub"><td class="rl" style="padding-left:18px;">Total Ads Budget</td><td id="t_ab">—</td><td id="t_aa">—</td><td id="t_ad">—</td></tr>
+        <tr class="shd"><td colspan="4">Other Marketing Costs</td></tr>
+        <tr id="tr_aff"><td class="rl" style="padding-left:18px;">Affiliate / Commission</td><td id="t_afb">—</td><td id="t_afa">—</td><td id="t_afd">—</td></tr>
+        <tr id="tr_kol"><td class="rl" style="padding-left:18px;">KOL / Influencer</td><td id="t_kb">—</td><td id="t_ka">—</td><td id="t_kd">—</td></tr>
+        <tr id="tr_bar"><td class="rl" style="padding-left:18px;">Product Barter</td><td id="t_bb">—</td><td id="t_ba">—</td><td id="t_bd">—</td></tr>
+        <tr id="tr_vou"><td class="rl" style="padding-left:18px;">Voucher / Discount</td><td id="t_vb">—</td><td id="t_va">—</td><td id="t_vd">—</td></tr>
+        <tr class="sub"><td class="rl">Total Marketing Costs</td><td id="t_mb">—</td><td id="t_ma">—</td><td id="t_md">—</td></tr>
+        <tr class="pr"><td class="rl">Net Profit (pre-partnership fee)</td><td id="t_pb">—</td><td id="t_pa">—</td><td id="t_pd">—</td></tr>
+        <tr class="shd"><td colspan="4">GROWBIZ Fee Breakdown</td></tr>
+        <tr class="fr"><td class="rl" style="padding-left:18px;">Base Retainer</td><td>—</td><td id="t_fbb">—</td><td id="t_fbd">—</td></tr>
+        <tr class="fr"><td class="rl" style="padding-left:18px;">Ads % Fee (<span id="t_fpl">—</span>)</td><td>—</td><td id="t_fpv">—</td><td id="t_fpd">—</td></tr>
+        <tr class="fr"><td class="rl" style="padding-left:18px;">Performance Bonus (Tier: <span id="t_tl">—</span>)</td><td>—</td><td id="t_fbv">—</td><td id="t_fbd2">—</td></tr>
+        <tr class="fr sub"><td class="rl">Total Partnership Fee</td><td>—</td><td id="t_ftv">—</td><td id="t_ftd">—</td></tr>
+        <tr class="nr"><td class="rl">Net Profit (post-partnership fee)</td><td id="t_nb">—</td><td id="t_na">—</td><td id="t_nd">—</td></tr>
+      </tbody>
+    </table>
+
+    <div class="sl">Marketing Cost Composition — With GROWBIZ</div>
+    <div id="bars" style="margin-bottom:20px;"></div>
+
+    <div class="sl">Partnership Summary</div>
+    <div id="verdicts"></div>
+  </div>
+
+  <!-- ══ TAB 2: MEDIA PLANNING ══ -->
+  <div id="tab-mp" class="tpanel">
+    <div class="ph">
+      <div class="ptag">Media Planning</div>
+      <h1>Revenue Target → <span>Budget Plan</span></h1>
+      <p>Set GMV target — sistem back-kalkulasi budget media per channel dan proyeksi profitabilitas bisnis.</p>
+    </div>
+
+    <div class="mpin">
+      <div class="ig" style="margin:0"><label>Target GMV</label>
+        <div class="iw"><span class="ip">Rp</span><input class="ii" id="mp_gmv" value="2.000.000.000" data-raw="2000000000" oninput="liveN(this);calcMP()"></div></div>
+      <div class="ig" style="margin:0"><label>Gross Margin (%)</label>
+        <input type="number" id="mp_margin" value="30" step="1" min="1" max="100" oninput="calcMP()"></div>
+      <div class="ig" style="margin:0"><label>Affiliate / Commission</label>
+        <div class="iw"><span class="ip">Rp</span><input class="ii" id="mp_aff" value="20.000.000" data-raw="20000000" oninput="liveN(this);calcMP()"></div></div>
+      <div class="ig" style="margin:0"><label>KOL / Influencer</label>
+        <div class="iw"><span class="ip">Rp</span><input class="ii" id="mp_kol" value="15.000.000" data-raw="15000000" oninput="liveN(this);calcMP()"></div></div>
+      <div class="ig" style="margin:0"><label>Product Barter (at cost)</label>
+        <div class="iw"><span class="ip">Rp</span><input class="ii" id="mp_barter" value="5.000.000" data-raw="5000000" oninput="liveN(this);calcMP()"></div></div>
+      <div class="ig" style="margin:0"><label>Voucher / Discount</label>
+        <div class="iw"><span class="ip">Rp</span><input class="ii" id="mp_vou" value="10.000.000" data-raw="10000000" oninput="liveN(this);calcMP()"></div></div>
+      <div class="ig" style="margin:0"><label>Baseline GMV (without GROWBIZ)</label>
+        <div class="iw"><span class="ip">Rp</span><input class="ii" id="mp_bgmv" value="500.000.000" data-raw="500000000" oninput="liveN(this);calcMP()"></div></div>
+      <div class="ig" style="margin:0"><label>Total Baseline Marketing Cost</label>
+        <div class="iw"><span class="ip">Rp</span><input class="ii" id="mp_bmk" value="130.000.000" data-raw="130000000" oninput="liveN(this);calcMP()"></div></div>
+    </div>
+
+    <!-- CHANNEL BUDGET SPLIT -->
+    <div class="sl">Ads Budget per Channel — Target</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px;">
+      <div class="ach" style="border-color:rgba(198,217,110,.3);margin:0;">
+        <div class="ach-hd"><div class="ach-dot" style="background:#c6d96e;"></div><span class="ach-nm" style="color:var(--ac);">Shopee Ads</span></div>
+        <div class="ach-lbl">Budget</div>
+        <div class="iw"><span class="ip">Rp</span><input class="ii" id="mp_shopee" value="100.000.000" data-raw="100000000" oninput="liveN(this);calcMP()"></div>
+        <div style="margin-top:5px;"><div class="ach-lbl">ROAS Target</div>
+        <input type="number" id="mp_shopee_r" value="10" step="0.5" oninput="calcMP()"></div>
+      </div>
+      <div class="ach" style="border-color:rgba(232,184,74,.3);margin:0;">
+        <div class="ach-hd"><div class="ach-dot" style="background:#e8b84a;"></div><span class="ach-nm" style="color:var(--ac2);">FB Ads CPAS</span></div>
+        <div class="ach-lbl">Budget</div>
+        <div class="iw"><span class="ip">Rp</span><input class="ii" id="mp_cpas" value="50.000.000" data-raw="50000000" oninput="liveN(this);calcMP()"></div>
+        <div style="margin-top:5px;"><div class="ach-lbl">ROAS Target</div>
+        <input type="number" id="mp_cpas_r" value="7" step="0.5" oninput="calcMP()"></div>
+      </div>
+      <div class="ach" style="border-color:rgba(222,122,82,.3);margin:0;">
+        <div class="ach-hd"><div class="ach-dot" style="background:#de7a52;"></div><span class="ach-nm" style="color:var(--ac3);">Boostpost</span></div>
+        <div class="ach-lbl">Budget</div>
+        <div class="iw"><span class="ip">Rp</span><input class="ii" id="mp_boost" value="20.000.000" data-raw="20000000" oninput="liveN(this);calcMP()"></div>
+        <div style="margin-top:5px;"><div class="ach-lbl">ROAS Target</div>
+        <input type="number" id="mp_boost_r" value="3.5" step="0.5" oninput="calcMP()"></div>
+      </div>
+    </div>
+
+    <div class="sl">Calculation Flow</div>
+    <div class="flgrid">
+      <div>
+        <div class="flhead">Blended ROAS — All Ads Channels</div>
+        <div class="flr">
+          <div class="flb"><div class="fll">GMV Target</div><div class="flv" id="mpf_gmv1">—</div></div>
+          <div class="fla">÷</div>
+          <div class="flb"><div class="fll">Total Ads</div><div class="flv" id="mpf_ads">—</div></div>
+          <div class="fla">=</div>
+          <div class="flb hl"><div class="fll">Blended ROAS</div><div class="flv" id="mpf_roas">—</div></div>
+        </div>
+        <div class="fldesc">GMV ÷ Total Ads Budget (Shopee+CPAS+Boost) — efisiensi gabungan semua channel iklan.</div>
+      </div>
+      <div>
+        <div class="flhead">ROMI — Total Marketing Efficiency</div>
+        <div class="flr">
+          <div class="flb"><div class="fll">GMV Target</div><div class="flv" id="mpf_gmv2">—</div></div>
+          <div class="fla">÷</div>
+          <div class="flb"><div class="fll">All Mktg Cost</div><div class="flv" id="mpf_mktg">—</div></div>
+          <div class="fla">=</div>
+          <div class="flb hla"><div class="fll">ROMI</div><div class="flv" id="mpf_romi">—</div></div>
+        </div>
+        <div class="fldesc">GMV ÷ semua biaya marketing — efisiensi holistik semua channel.</div>
+      </div>
+    </div>
+
+    <div class="sl">Full Media Budget Allocation</div>
+    <table class="at2">
+      <thead><tr><th>Channel</th><th>Budget</th><th>GMV Contribution</th><th>ROAS</th><th>% of Total Ads</th></tr></thead>
+      <tbody>
+        <tr><td><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#c6d96e;margin-right:5px;vertical-align:middle;"></span>Shopee Ads</td><td id="ma_shopee">—</td><td id="ma_shopee_gmv">—</td><td id="ma_shopee_r">—</td><td id="ma_shopee_p">—</td></tr>
+        <tr><td><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#e8b84a;margin-right:5px;vertical-align:middle;"></span>FB Ads CPAS</td><td id="ma_cpas">—</td><td id="ma_cpas_gmv">—</td><td id="ma_cpas_r">—</td><td id="ma_cpas_p">—</td></tr>
+        <tr><td><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#de7a52;margin-right:5px;vertical-align:middle;"></span>Boostpost</td><td id="ma_boost">—</td><td id="ma_boost_gmv">—</td><td id="ma_boost_r">—</td><td id="ma_boost_p">—</td></tr>
+        <tr class="tr2"><td>Total Ads Budget</td><td id="ma_ads_tot">—</td><td id="ma_ads_gmv">—</td><td id="ma_blend_r">—</td><td>100%</td></tr>
+      </tbody>
+    </table>
+
+    <div style="margin-top:10px;margin-bottom:20px;">
+      <table class="at2">
+        <thead><tr><th>Other Marketing</th><th>Budget</th><th>% of GMV</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td>Affiliate / Commission</td><td id="ma_aff">—</td><td id="ma_affp">—</td><td>Fixed amount</td></tr>
+          <tr><td>KOL / Influencer</td><td id="ma_kol">—</td><td id="ma_kolp">—</td><td>Fixed amount</td></tr>
+          <tr><td>Product Barter</td><td id="ma_bar">—</td><td id="ma_barp">—</td><td>Fixed at cost</td></tr>
+          <tr><td>Voucher / Discount</td><td id="ma_vou">—</td><td id="ma_voup">—</td><td>Fixed amount</td></tr>
+          <tr class="tr2"><td>Grand Total Marketing</td><td id="ma_tot">—</td><td id="ma_totp">—</td><td>All channels</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="sl">Profitability Impact</div>
+    <div class="mpg">
+      <div class="mpc">
+        <h3>Baseline — Without GROWBIZ</h3>
+        <div style="margin-bottom:7px;"><div style="font-size:9px;color:var(--mu);text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px;">GMV</div><div class="mpb" id="mp_bg">—</div></div>
+        <div style="margin-bottom:7px;"><div style="font-size:9px;color:var(--mu);text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px;">Gross Profit</div><div style="font-family:'DM Mono',monospace;font-size:12.5px;color:var(--tx)" id="mp_bgp">—</div></div>
+        <div><div style="font-size:9px;color:var(--mu);text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px;">Net Profit</div><div style="font-family:'DM Mono',monospace;font-size:12.5px;color:var(--pos)" id="mp_bn">—</div></div>
+      </div>
+      <div class="mpc" style="border-color:var(--kg-bd);">
+        <h3 style="color:var(--ac);">Target — With GROWBIZ Partnership</h3>
+        <div style="margin-bottom:7px;"><div style="font-size:9px;color:var(--mu);text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px;">GMV</div><div class="mpb g" id="mp_tg">—</div></div>
+        <div style="margin-bottom:7px;"><div style="font-size:9px;color:var(--mu);text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px;">Gross Profit</div><div style="font-family:'DM Mono',monospace;font-size:12.5px;color:var(--tx)" id="mp_tgp">—</div></div>
+        <div><div style="font-size:9px;color:var(--mu);text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px;">Net Profit</div><div style="font-family:'DM Mono',monospace;font-size:12.5px;color:var(--pos)" id="mp_tn">—</div></div>
+      </div>
+    </div>
+
+    <div class="cb">
+      <h3>Partnership Fee Recommendation</h3>
+      <div class="crw"><span class="crk">Incremental GMV Created</span><span class="crv ac" id="mp_igmv">—</span></div>
+      <div class="crw"><span class="crk">Incremental Gross Profit</span><span class="crv" id="mp_igp">—</span></div>
+      <div class="crw"><span class="crk">Incremental Net Profit (after additional marketing costs)</span><span class="crv g" id="mp_inet">—</span></div>
+      <div class="crw"><span class="crk">Suggested GROWBIZ Fee — 10% of incremental net profit</span><span class="crv go" id="mp_v10">—</span></div>
+      <div class="crw"><span class="crk">Suggested GROWBIZ Fee — 15% of incremental net profit</span><span class="crv go" id="mp_v15">—</span></div>
+      <div class="crw"><span class="crk">Recommended fee range (fair for both parties)</span><span class="crv g" id="mp_rng">—</span></div>
+      <div class="crw"><span class="crk">Client ROI at mid-range fee</span><span class="crv ac" id="mp_croi">—</span></div>
+    </div>
+    <div id="mp_vrd" style="margin-top:13px;"></div>
+  </div>
+
+</div><!-- /main -->
+</div><!-- /app -->
+
+<script>
+/* ══ FORMATTING ══ */
+const dot3 = n => Math.round(Math.abs(n)).toString().replace(/\B(?=(\d{3})+(?!\d))/g,'.');
+const fRp  = n => 'Rp ' + dot3(n);
+const fPct = (n,t) => t>0 ? (n/t*100).toFixed(1)+'%' : '—';
+const cmp  = n => {
+  const a=Math.abs(n),s=n<0?'-':'';
+  if(a>=1e9) return s+(a/1e9).toFixed(2)+' M';
+  if(a>=1e6) return s+(a/1e6).toFixed(1)+' Jt';
+  if(a>=1e3) return s+(a/1e3).toFixed(0)+' rb';
+  return s+Math.round(a);
+};
+const cRp = n => 'Rp '+cmp(Math.abs(n));
+const cD  = n => (n>=0?'+':'−')+'Rp '+cmp(Math.abs(n));
+
+function liveN(el){
+  const pos0=el.selectionStart, old=el.value;
+  const digits=old.replace(/\./g,'').replace(/\D/g,'');
+  const num=digits===''?0:parseInt(digits,10);
+  const fmt=digits===''?'':dot3(num);
+  el.value=fmt; el.dataset.raw=num;
+  const dotsOld=(old.slice(0,pos0).match(/\./g)||[]).length;
+  const dotsNew=(fmt.slice(0,pos0).match(/\./g)||[]).length;
+  try{el.setSelectionRange(Math.max(0,pos0+(dotsNew-dotsOld)),Math.max(0,pos0+(dotsNew-dotsOld)));}catch(e){}
+  go();
+}
+
+const raw=id=>{const e=document.getElementById(id);return e?(parseFloat(e.dataset.raw)||0):0;};
+const fN =id=>parseFloat(document.getElementById(id)?.value)||0;
+const fB =id=>document.getElementById(id)?.checked;
+const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
+
+function syncR(rid,iid,vid,sfx){const v=document.getElementById(rid).value;document.getElementById(iid).value=v;document.getElementById(vid).textContent=v+sfx;go();}
+function syncI(iid,rid,vid,sfx){const v=document.getElementById(iid).value;document.getElementById(rid).value=v;document.getElementById(vid).textContent=v+sfx;go();}
+
+function mc(tid,vid,pid,gmv){
+  if(!fB(tid))return 0;
+  const p=fN(pid),f=raw(vid);
+  return p>0?gmv*p/100:f;
+}
+
+/* blended ROAS = total GMV / total ads budget */
+function blendedRoas(budgets, roases){
+  const totalBudget=budgets.reduce((a,b)=>a+b,0);
+  const totalGMV=budgets.reduce((sum,b,i)=>sum+b*roases[i],0);
+  return totalBudget>0?totalGMV/totalBudget:0;
+}
+
+function getBonus(roas){
+  const ts=[
+    {r:fN('tier4_roas'),b:raw('tier4_bonus'),l:'Tier 4'},
+    {r:fN('tier3_roas'),b:raw('tier3_bonus'),l:'Tier 3'},
+    {r:fN('tier2_roas'),b:raw('tier2_bonus'),l:'Tier 2'},
+    {r:fN('tier1_roas'),b:raw('tier1_bonus'),l:'Tier 1'},
+  ];
+  for(const t of ts){if(roas>=t.r)return t;}
+  return{r:0,b:0,l:'None'};
+}
+
+function renderTiers(roas){
+  const ts=[
+    {r:fN('tier1_roas'),b:raw('tier1_bonus'),l:'Tier 1'},
+    {r:fN('tier2_roas'),b:raw('tier2_bonus'),l:'Tier 2'},
+    {r:fN('tier3_roas'),b:raw('tier3_bonus'),l:'Tier 3'},
+    {r:fN('tier4_roas'),b:raw('tier4_bonus'),l:'Tier 4'},
+  ];
+  const act=getBonus(roas);
+  document.getElementById('tier_tbody').innerHTML=ts.map(t=>{
+    const on=t.l===act.l&&act.b>0, passed=roas>=t.r&&!on;
+    return`<tr class="${on?'at':''}"><td>${t.l}</td><td>${t.r}x</td><td>${fRp(t.b)}</td>
+    <td>${on?`<span style="color:var(--pos)">✓ Active</span>`:passed?`<span style="color:var(--mu)">Passed</span>`:`<span style="color:var(--mu2)">Not yet</span>`}</td></tr>`;
+  }).join('');
+}
+
+function go(){
+  const mg=Math.min(fN('margin_i'),100)/100;
+
+  /* --- BEFORE --- */
+  const sb=raw('shopee_b'), cb=raw('cpas_b'), bb=raw('boost_b');
+  const srb=fN('shopee_rb'), crb=fN('cpas_rb'), brb_r=fN('boost_rb');
+  const ab=sb+cb+bb;
+  const gb=(sb*srb)+(cb*crb)+(bb*brb_r);
+  const rb=blendedRoas([sb,cb,bb],[srb,crb,brb_r]);
+
+  /* --- AFTER --- */
+  const sa=raw('shopee_a'), ca=raw('cpas_a'), ba=raw('boost_a');
+  const sra=fN('shopee_ra'), cra=fN('cpas_ra'), bra_r=fN('boost_ra');
+  const aa=sa+ca+ba;
+  const ga=(sa*sra)+(ca*cra)+(ba*bra_r);
+  const ra=blendedRoas([sa,ca,ba],[sra,cra,bra_r]);
+
+  /* gross profit */
+  const gpb=gb*mg, gpa=ga*mg;
+
+  /* other marketing */
+  const afb=mc('tog_aff','val_aff','pct_aff',gb),  afa=mc('tog_aff','val_aff','pct_aff',ga);
+  const klb=mc('tog_kol','val_kol','pct_kol',gb),  kla=mc('tog_kol','val_kol','pct_kol',ga);
+  const brb=mc('tog_barter','val_barter','pct_barter',gb), bra=mc('tog_barter','val_barter','pct_barter',ga);
+  const vob=mc('tog_voucher','val_voucher','pct_voucher',gb), voa=mc('tog_voucher','val_voucher','pct_voucher',ga);
+
+  const mkb=ab+afb+klb+brb+vob, mka=aa+afa+kla+bra+voa;
+  const prb=gpb-mkb, pra=gpa-mka;
+
+  /* fee */
+  const fb=raw('fee_base'), fp=aa*fN('fee_pct_i')/100;
+  const tier=getBonus(ra), bn=tier.b, ft=fb+fp+bn;
+  const nb=prb, na=pra-ft, inc=na-nb;
+  const roi=ft>0?inc/ft:0, rt=roi.toFixed(1)+'x';
+
+  /* roas breakdown display */
+  set('rd_shopee_b',srb.toFixed(1)+'x'); set('rd_shopee_a',sra.toFixed(1)+'x');
+  set('rd_cpas_b',crb.toFixed(1)+'x');   set('rd_cpas_a',cra.toFixed(1)+'x');
+  set('rd_boost_b',brb_r.toFixed(1)+'x');set('rd_boost_a',bra_r.toFixed(1)+'x');
+
+  /* blended roas banner */
+  set('blend_b',rb.toFixed(2)+'x'); set('blend_a',ra.toFixed(2)+'x');
+  const diff=ra-rb, pct=rb>0?((diff/rb)*100).toFixed(0):0;
+  set('blend_desc', diff>=0 ? `Blended ROAS naik ${diff.toFixed(2)}x` : `Blended ROAS turun ${Math.abs(diff).toFixed(2)}x`);
+  set('blend_sub', ` (${diff>=0?'+':''}${pct}% vs baseline) — GMV ${cRp(gb)} → ${cRp(ga)}`);
+
+  renderTiers(ra);
+
+  /* scenario card */
+  set('sc_name',document.querySelector('.sctab.on')?.textContent||'—');
+  set('sc_rb',rb.toFixed(2)+'x'); set('sc_ra',ra.toFixed(2)+'x');
+  set('sc_ads',cRp(aa)); set('sc_fb',fRp(fb));
+  set('sc_fp',fRp(fp)+' ('+fN('fee_pct_i')+'%)');
+  set('sc_bt',tier.l+' — '+fRp(bn)); set('sc_ft',fRp(ft)); set('sc_roi',rt);
+
+  /* kpi cards */
+  set('k_gb',cRp(gb)); set('k_ga',cRp(ga));
+  set('k_gd',(ga>=gb?'+':'')+cRp(ga-gb)+' vs baseline');
+  set('k_fee',cRp(ft)); set('k_roi',rt);
+
+  /* roi highlight */
+  const rb2=document.getElementById('roi_big');
+  rb2.textContent=rt;
+  rb2.style.color=roi>=8?'var(--pos)':roi>=4?'var(--ac2)':'var(--neg)';
+  set('roi_title','Every Rp 1 invested in GROWBIZ returns Rp '+roi.toFixed(1)+' in new net profit');
+  set('roi_sub','Total fee: '+fRp(ft)+'/mo (retainer '+fRp(fb)+' + ads fee '+fRp(fp)+' + bonus '+fRp(bn)+'). Net profit growth: '+fRp(inc)+'/mo.');
+
+  /* comparison table */
+  const sd=(id,d,inv=false)=>{
+    const e=document.getElementById(id);if(!e)return;
+    e.textContent=cD(d);
+    e.className=d>=0?(inv?'vn':'vp'):(inv?'vp':'vn');
+  };
+  set('t_gb',cRp(gb)); set('t_ga',cRp(ga)); sd('t_gd',ga-gb);
+  set('t_gpb',cRp(gpb)); set('t_gpa',cRp(gpa)); sd('t_gpd',gpa-gpb);
+
+  /* ads per channel */
+  set('t_shopee_b',cRp(sb)); set('t_shopee_a',cRp(sa)); sd('t_shopee_d',-(sa-sb),true);
+  set('t_cpas_b',cRp(cb));   set('t_cpas_a',cRp(ca));   sd('t_cpas_d',-(ca-cb),true);
+  set('t_boost_b',cRp(bb));  set('t_boost_a',cRp(ba));  sd('t_boost_d',-(ba-bb),true);
+  set('t_ab',cRp(ab)); set('t_aa',cRp(aa)); sd('t_ad',-(aa-ab),true);
+
+  /* other marketing */
+  const sr=(id,v)=>{const e=document.getElementById(id);if(e)e.style.display=v?'':'none';};
+  sr('tr_aff',fB('tog_aff')); set('t_afb',cRp(afb)); set('t_afa',cRp(afa)); sd('t_afd',-(afa-afb),true);
+  sr('tr_kol',fB('tog_kol')); set('t_kb',cRp(klb));  set('t_ka',cRp(kla));  sd('t_kd',-(kla-klb),true);
+  sr('tr_bar',fB('tog_barter')); set('t_bb',cRp(brb)); set('t_ba',cRp(bra)); sd('t_bd',-(bra-brb),true);
+  sr('tr_vou',fB('tog_voucher')); set('t_vb',cRp(vob)); set('t_va',cRp(voa)); sd('t_vd',-(voa-vob),true);
+
+  set('t_mb',cRp(mkb)); set('t_ma',cRp(mka)); sd('t_md',-(mka-mkb),true);
+  set('t_pb',cRp(prb)); set('t_pa',cRp(pra)); sd('t_pd',pra-prb);
+  set('t_fpl',fN('fee_pct_i')+'%');
+  set('t_fbb',fRp(fb)); sd('t_fbd',-fb,true);
+  set('t_fpv',fRp(fp)); sd('t_fpd',-fp,true);
+  set('t_fbv',fRp(bn)); sd('t_fbd2',-bn,true);
+  set('t_tl',tier.l);
+  set('t_ftv',fRp(ft)); sd('t_ftd',-ft,true);
+  set('t_nb',cRp(nb)); set('t_na',cRp(na)); sd('t_nd',inc);
+
+  /* bars */
+  const cs=[
+    {n:'Shopee Ads',v:sa,c:'#c6d96e'},
+    {n:'FB Ads CPAS',v:ca,c:'#e8b84a'},
+    {n:'Boostpost',v:ba,c:'#de7a52'},
+    fB('tog_aff')&&afa>0&&{n:'Affiliate',v:afa,c:'#88b0d2'},
+    fB('tog_kol')&&kla>0&&{n:'KOL / Influencer',v:kla,c:'#b890d0'},
+    fB('tog_barter')&&bra>0&&{n:'Product Barter',v:bra,c:'#70c0b0'},
+    fB('tog_voucher')&&voa>0&&{n:'Voucher / Discount',v:voa,c:'#d090b0'},
+    ft>0&&{n:'GROWBIZ Fee',v:ft,c:'#e8c870'},
+  ].filter(Boolean);
+  const tc=cs.reduce((s,c)=>s+c.v,0);
+  document.getElementById('bars').innerHTML=cs.map(c=>{
+    const w=tc>0?c.v/tc*100:0;
+    return`<div class="bi"><div class="bh"><span class="bn">${c.n}</span><span class="ba">${fRp(c.v)} <span style="color:var(--mu)">${fPct(c.v,tc)}</span></span></div>
+    <div class="bt"><div class="bf" style="width:${w}%;background:${c.c}28;border-left:2px solid ${c.c}"></div></div></div>`;
+  }).join('');
+
+  /* verdicts */
+  const vv=[];
+  if(prb<0) vv.push({t:'bad',ti:'Cost Structure Alert',bo:`Total biaya marketing melebihi gross profit sebesar <strong>${fRp(Math.abs(prb))}/bulan</strong>. Audit cost structure disarankan sebelum scale up.`});
+  if(na<nb) vv.push({t:'bad',ti:'Fee Adjustment Required',bo:`Net profit setelah partnership fee lebih rendah dari baseline. Tingkatkan target ROAS, kurangi fee, atau optimalkan biaya marketing lainnya.`});
+  if(inc>0&&roi>=8) vv.push({t:'good',ti:'Strong Partnership Value Created',
+    bo:`Bisnis diproyeksikan tumbuh dari <strong>${cRp(gb)}</strong> ke <strong>${cRp(ga)}</strong> GMV/bulan. Blended ROAS naik dari <strong>${rb.toFixed(2)}x</strong> ke <strong>${ra.toFixed(2)}x</strong>.<br><br>Net profit setelah semua biaya termasuk partnership fee tumbuh <strong>${fRp(inc)}/bulan</strong>. GROWBIZ fee <strong>${fRp(ft)}/bulan</strong> sepenuhnya didanai dari profit baru.`,
+    mx:[{l:'Net Profit Before',v:fRp(nb),c:'var(--mu)'},{l:'Net Profit After',v:fRp(na),c:'var(--pos)'},{l:'Growth',v:fRp(inc),c:'var(--ac)'},{l:'ROI on Fee',v:rt,c:'var(--ac2)'}]});
+  else if(inc>0&&roi>=4) vv.push({t:'warn',ti:'Positive Partnership Value',
+    bo:`Net profit naik <strong>${fRp(inc)}/bulan</strong>. Client ROI on fee adalah <strong>${rt}</strong> — positif dan diharapkan membaik seiring matangnya performa.`,
+    mx:[{l:'Net Profit Before',v:fRp(nb),c:'var(--mu)'},{l:'Net Profit After',v:fRp(na),c:'var(--pos)'},{l:'Growth',v:fRp(inc),c:'var(--ac)'},{l:'ROI on Fee',v:rt,c:'var(--ac2)'}]});
+  if(mka/ga>0.22) vv.push({t:'warn',ti:'Marketing Cost Ratio Note',bo:`Total biaya marketing mencapai <strong>${(mka/ga*100).toFixed(1)}%</strong> dari target GMV. Pastikan gross margin dapat menopang rasio ini.`});
+  document.getElementById('verdicts').innerHTML=vv.map(v=>`
+    <div class="vrd ${v.t}"><div class="vti">${v.ti}</div><div class="vbo">${v.bo}</div>
+    ${v.mx?`<div class="vmx">${v.mx.map(m=>`<div><div class="vml">${m.l}</div><div class="vmv" style="color:${m.c}">${m.v}</div></div>`).join('')}</div>`:''}</div>`).join('');
+}
+
+/* ══ MEDIA PLAN ══ */
+function calcMP(){
+  const tgt=raw('mp_gmv');
+  const mg=Math.min(fN('mp_margin'),100)/100;
+  const aff=raw('mp_aff'), kol=raw('mp_kol'), bar=raw('mp_barter'), vou=raw('mp_vou');
+  const bgmv=raw('mp_bgmv'), bmk=raw('mp_bmk');
+
+  const ms=raw('mp_shopee'), mc2=raw('mp_cpas'), mb=raw('mp_boost');
+  const msr=fN('mp_shopee_r'), mcr=fN('mp_cpas_r'), mbr=fN('mp_boost_r');
+  const adsTotal=ms+mc2+mb;
+  const gmvShopee=ms*msr, gmvCpas=mc2*mcr, gmvBoost=mb*mbr;
+  const gmvFromAds=gmvShopee+gmvCpas+gmvBoost;
+  const blendR=adsTotal>0?gmvFromAds/adsTotal:0;
+
+  const tot=adsTotal+aff+kol+bar+vou;
+  const romi=tot>0?tgt/tot:0;
+
+  const bgp=bgmv*mg, bnet=bgp-bmk;
+  const tgp=tgt*mg,  tnet=tgp-tot;
+  const igmv=tgt-bgmv, igp=tgp-bgp, inet=tnet-bnet;
+  const v10=inet*.10, v15=inet*.15, mid=(v10+v15)/2;
+  const croi=mid>0?(inet-mid)/mid:0;
+
+  set('mpf_gmv1',cRp(tgt)); set('mpf_ads',cRp(adsTotal)); set('mpf_roas',blendR.toFixed(2)+'x');
+  set('mpf_gmv2',cRp(tgt)); set('mpf_mktg',cRp(tot)); set('mpf_romi',romi.toFixed(1)+'x');
+
+  /* channel table */
+  set('ma_shopee',fRp(ms)); set('ma_shopee_gmv',fRp(gmvShopee)); set('ma_shopee_r',msr.toFixed(1)+'x'); set('ma_shopee_p',fPct(ms,adsTotal));
+  set('ma_cpas',fRp(mc2));  set('ma_cpas_gmv',fRp(gmvCpas));   set('ma_cpas_r',mcr.toFixed(1)+'x');   set('ma_cpas_p',fPct(mc2,adsTotal));
+  set('ma_boost',fRp(mb));  set('ma_boost_gmv',fRp(gmvBoost)); set('ma_boost_r',mbr.toFixed(1)+'x');  set('ma_boost_p',fPct(mb,adsTotal));
+  set('ma_ads_tot',fRp(adsTotal)); set('ma_ads_gmv',fRp(gmvFromAds)); set('ma_blend_r',blendR.toFixed(2)+'x');
+
+  set('ma_aff',fRp(aff)); set('ma_affp',fPct(aff,tgt));
+  set('ma_kol',fRp(kol)); set('ma_kolp',fPct(kol,tgt));
+  set('ma_bar',fRp(bar)); set('ma_barp',fPct(bar,tgt));
+  set('ma_vou',fRp(vou)); set('ma_voup',fPct(vou,tgt));
+  set('ma_tot',fRp(tot)); set('ma_totp',fPct(tot,tgt));
+
+  set('mp_bg',cRp(bgmv)); set('mp_bgp',fRp(bgp)); set('mp_bn',fRp(bnet));
+  set('mp_tg',cRp(tgt));  set('mp_tgp',fRp(tgp)); set('mp_tn',fRp(tnet));
+  set('mp_igmv',fRp(igmv)); set('mp_igp',fRp(igp)); set('mp_inet',fRp(inet));
+  set('mp_v10',fRp(v10)+'/month'); set('mp_v15',fRp(v15)+'/month');
+  set('mp_rng',fRp(v10)+' – '+fRp(v15)+'/month');
+  set('mp_croi',croi.toFixed(1)+'x return');
+
+  const mv=[];
+  if(tnet>bnet) mv.push({t:'good',ti:'Profitability Growth Confirmed',bo:`Net profit naik <strong>${fRp(inet)}/bulan</strong>. Ruang untuk GROWBIZ fee <strong>${fRp(v10)} – ${fRp(v15)}/bulan</strong> sepenuhnya dari growth.`});
+  if(tot/tgt>0.2) mv.push({t:'warn',ti:'Marketing Cost Ratio Note',bo:`Total alokasi marketing mencapai <strong>${(tot/tgt*100).toFixed(1)}%</strong> dari target GMV. Verifikasi gross margin.`});
+  if(mg<0.25&&tot/tgt>0.15) mv.push({t:'bad',ti:'Margin Pressure Warning',bo:`Gross margin <strong>${(mg*100).toFixed(0)}%</strong> dikombinasikan dengan biaya marketing tinggi dapat menekan net profit secara signifikan.`});
+  document.getElementById('mp_vrd').innerHTML=mv.map(v=>`<div class="vrd ${v.t}"><div class="vti">${v.ti}</div><div class="vbo">${v.bo}</div></div>`).join('');
+}
+
+/* ══ TABS ══ */
+function switchTab(id,btn){
+  document.querySelectorAll('.tpanel').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.tbtn').forEach(b=>b.classList.remove('on'));
+  document.getElementById(id).classList.add('on'); btn.classList.add('on');
+}
+
+/* ══ SCENARIOS ══ */
+const SCEN={
+  base:  {mg:30, sb:60e6,srb:5,  cb:30e6,crb:4,  bb:10e6,brb:2,   sa:60e6, sra:5,  ca:30e6,cra:4,  ba:10e6,bra:2,   fb:12e6,fp:8},
+  target:{mg:30, sb:60e6,srb:5,  cb:30e6,crb:4,  bb:10e6,brb:2,   sa:120e6,sra:10, ca:60e6,cra:7,  ba:20e6,bra:3.5, fb:15e6,fp:8},
+  best:  {mg:30, sb:60e6,srb:5,  cb:30e6,crb:4,  bb:10e6,brb:2,   sa:120e6,sra:14, ca:60e6,cra:10, ba:20e6,bra:5,   fb:15e6,fp:8},
+  under: {mg:30, sb:60e6,srb:5,  cb:30e6,crb:4,  bb:10e6,brb:2,   sa:80e6, sra:6,  ca:40e6,cra:5,  ba:15e6,bra:2.5, fb:12e6,fp:8},
+};
+function loadSC(s,btn){
+  document.querySelectorAll('.sctab').forEach(t=>t.classList.remove('on'));
+  btn.classList.add('on');
+  const sc=SCEN[s];
+  const si=(id,v)=>{const e=document.getElementById(id);if(e)e.value=v;};
+  const sIDR=(id,n)=>{const e=document.getElementById(id);if(!e)return;e.dataset.raw=n;e.value=dot3(n);};
+  si('margin_i',sc.mg);
+  sIDR('shopee_b',sc.sb); si('shopee_rb',sc.srb);
+  sIDR('cpas_b',sc.cb);   si('cpas_rb',sc.crb);
+  sIDR('boost_b',sc.bb);  si('boost_rb',sc.brb);
+  sIDR('shopee_a',sc.sa); si('shopee_ra',sc.sra);
+  sIDR('cpas_a',sc.ca);   si('cpas_ra',sc.cra);
+  sIDR('boost_a',sc.ba);  si('boost_ra',sc.bra);
+  sIDR('fee_base',sc.fb); si('fee_pct_i',sc.fp);
+  document.getElementById('fee_pct_r').value=sc.fp;
+  document.getElementById('fee_pct_v').textContent=sc.fp+'%';
+  document.getElementById('margin_r').value=sc.mg;
+  document.getElementById('margin_v').textContent=sc.mg+'%';
+  go();
+}
+
+/* ══ THEME ══ */
+function toggleTheme(){
+  const L=document.documentElement.classList.toggle('light');
+  document.getElementById('tl').textContent=L?'Dark':'Light';
+  document.getElementById('ti').textContent=L?'☀️':'🌙';
+  localStorage.setItem('gb_t',L?'l':'d');
+}
+(()=>{
+  if(localStorage.getItem('gb_t')==='l'){
+    document.documentElement.classList.add('light');
+    addEventListener('DOMContentLoaded',()=>{
+      document.getElementById('tl').textContent='Dark';
+      document.getElementById('ti').textContent='☀️';
+    });
+  }
+})();
+
+/* ══ INIT ══ */
+document.addEventListener('DOMContentLoaded',()=>{
+  document.querySelectorAll('input[type=number]').forEach(e=>e.addEventListener('input',go));
+  document.querySelectorAll('.tg input').forEach(e=>e.addEventListener('change',go));
+  go(); calcMP();
+});
+</script>
+</body>
+</html>
